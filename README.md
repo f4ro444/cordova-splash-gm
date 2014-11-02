@@ -33,11 +33,11 @@ That's it. Now every time you ```cordova build```, the splashscreens will be aut
 
 ### Requirements
 
-- ImageMagick
+- GraphicsMagick
 
 Install on a Mac:
 
-     $ brew install imagemagick
+     $ brew install graphicsmagick
 
 - At least one platform was added to your project ([cordova platforms docs](http://cordova.apache.org/docs/en/3.4.0/guide_platforms_index.md.html#Platform%20Guides))
 - Cordova's config.xml file must exist in the root folder ([cordova config.xml docs](http://cordova.apache.org/docs/en/3.4.0/config_ref_index.md.html#The%20config.xml%20File))

@@ -1,6 +1,6 @@
 var fs     = require('fs');
 var xml2js = require('xml2js');
-var ig     = require('imagemagick');
+var gm     = require('gm');
 var colors = require('colors');
 var _      = require('underscore');
 var Q      = require('q');
@@ -109,29 +109,29 @@ var getProjectName = function () {
 var generateSplash= function (platform, splash) {
     var deferred = Q.defer();
     var constraint;
+    var height = splash.size.h;
+    var width = splash.size.w;
     var max;
-    if (splash.size.h > splash.size.w) {
+    if (height > width) {
       constraint = 'height';
-      max = splash.size.h;
+      max = height;
     } else {
       constraint = 'width';
-      max = splash.size.w;
+      max = width;
     }
-    var options = {
-      srcPath: settings.SPLASH_FILE,
-      dstPath: platform.splashPaths + splash.name,
-      quality: 1,
-      format: 'png'
-    };
-    options[constraint] = max;
-    ig.resize(options , function(err, stdout, stderr){
-      if (err) {
+    gm(settings.SPLASH_FILE)
+      .resize(max, max)
+      .gravity('center')
+      .crop(width, height, (max-width)/2, (max-height)/2)
+      .write(platform.splashPaths + splash.name, function(err) {
+        if (err) {
           deferred.reject(err);
-      } else {
+        } else {
           deferred.resolve();
           display.success(splash.name + ' created');
-      }
-    });
+        }
+      });
+
     return deferred.promise;
 };
 
