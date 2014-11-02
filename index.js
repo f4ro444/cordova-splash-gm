@@ -20,13 +20,13 @@ var getPlatforms = function (projectName) {
         isAdded : fs.existsSync('platforms/ios'),
         splashPaths : 'platforms/ios/' + projectName + '/Resources/splash/',
         splashes : [
-            { name : 'Default~iphone-test.png',            size : { w: 320,  h: 480  }  },
-            { name : 'Default@2x~iphone-test.png',         size : { w: 640,  h: 960  }  },
-            { name : 'Default-Portrait~ipad-test.png',     size : { w: 768,  h: 1024 }  },
-            { name : 'Default-Portrait@2x~ipad-test.png',  size : { w: 1536, h: 2048 }  },
-            { name : 'Default-Landscape~ipad-test.png',    size : { w: 1024, h: 768  }  },
-            { name : 'Default-Landscape@2x~ipad-test.png', size : { w: 2048, h: 1536 }  },
-            { name : 'Default-568h@2x~iphone-test.png',    size : { w: 640,  h: 1136 }  }
+            { name : 'Default~iphone.png',            size : { w: 320,  h: 480  }  },
+            { name : 'Default@2x~iphone.png',         size : { w: 640,  h: 960  }  },
+            { name : 'Default-Portrait~ipad.png',     size : { w: 768,  h: 1024 }  },
+            { name : 'Default-Portrait@2x~ipad.png',  size : { w: 1536, h: 2048 }  },
+            { name : 'Default-Landscape~ipad.png',    size : { w: 1024, h: 768  }  },
+            { name : 'Default-Landscape@2x~ipad.png', size : { w: 2048, h: 1536 }  },
+            { name : 'Default-568h@2x~iphone.png',    size : { w: 640,  h: 1136 }  }
         ]
     });
     platforms.push({
@@ -34,14 +34,14 @@ var getPlatforms = function (projectName) {
         splashPaths : 'platforms/android/res/',
         isAdded : fs.existsSync('platforms/android'),
         splashes : [
-            { name : 'drawable-land-hdpi/screen-test.png',   size : { w: 800, h: 480  } },
-            { name : 'drawable-land-ldpi/screen-test.png',   size : { w: 320, h: 200  } },
-            { name : 'drawable-land-mdpi/screen-test.png',   size : { w: 480, h: 320  } },
-            { name : 'drawable-land-xhdpi/screen-test.png',  size : { w: 1280, h: 720 } },
-            { name : 'drawable-port-hdpi/screen-test.png',   size : { w: 480, h: 800  } },
-            { name : 'drawable-port-ldpi/screen-test.png',   size : { w: 200, h: 320  } },
-            { name : 'drawable-port-mdpi/screen-test.png',   size : { w: 320, h: 480  } },
-            { name : 'drawable-port-xhdpi/screen-test.png',  size : { w: 720, h: 1280 } }
+            { name : 'drawable-land-hdpi/screen.png',   size : { w: 800, h: 480  } },
+            { name : 'drawable-land-ldpi/screen.png',   size : { w: 320, h: 200  } },
+            { name : 'drawable-land-mdpi/screen.png',   size : { w: 480, h: 320  } },
+            { name : 'drawable-land-xhdpi/screen.png',  size : { w: 1280, h: 720 } },
+            { name : 'drawable-port-hdpi/screen.png',   size : { w: 480, h: 800  } },
+            { name : 'drawable-port-ldpi/screen.png',   size : { w: 200, h: 320  } },
+            { name : 'drawable-port-mdpi/screen.png',   size : { w: 320, h: 480  } },
+            { name : 'drawable-port-xhdpi/screen.png',  size : { w: 720, h: 1280 } }
         ]
     });
     // TODO: add all platforms
