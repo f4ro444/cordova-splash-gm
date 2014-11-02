@@ -1,7 +1,7 @@
 {
-  "name": "cordova-icon",
+  "name": "cordova-splash",
   "version": "0.1.0",
-  "description": "Automatic icon resizing for Cordova",
+  "description": "Automatic splashscreen resizing for Cordova",
   "main": "index.js",
   "preferGlobal": "true",
   "directories": {
@@ -12,19 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/AlexDisler/cordova-icon.git"
+    "url": "git@github.com:cordova-bridge/cordova-splash.git"
   },
   "keywords": [
     "cordova",
-    "icon",
+    "splash",
     "resize"
   ],
   "author": "Alex Disler",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AlexDisler/cordova-icon/issues"
+    "url": "https://github.com/cordova-bridge/cordova-splash/issues"
   },
-  "homepage": "https://github.com/AlexDisler/cordova-icon",
+  "homepage": "https://github.com/cordova-bridge/cordova-splash",
   "dependencies": {
     "imagemagick": "^0.1.3",
     "underscore": "^1.6.0",
