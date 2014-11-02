@@ -6,7 +6,7 @@ var _      = require('underscore');
 var Q      = require('q');
 
 /**
- * Check which platforms are added to the project and return their icon names and sized
+ * Check which platforms are added to the project and return their splashscreen names and sized
  *
  * @param  {String} projectName
  * @return {Promise} resolves with an array of platforms
@@ -18,35 +18,30 @@ var getPlatforms = function (projectName) {
         name : 'ios',
         // TODO: use async fs.exists
         isAdded : fs.existsSync('platforms/ios'),
-        iconsPath : 'platforms/ios/' + projectName + '/Resources/icons/',
-        icons : [
-            { name : 'icon-40.png',       size : 40  },
-            { name : 'icon-40@2x.png',    size : 80  },
-            { name : 'icon-50.png',       size : 50  },
-            { name : 'icon-50@2x.png',    size : 100 },
-            { name : 'icon-60.png',       size : 60  },
-            { name : 'icon-60@2x.png',    size : 120 },
-            { name : 'icon-60@3x.png',    size : 180 },
-            { name : 'icon-72.png',       size : 72  },
-            { name : 'icon-72@2x.png',    size : 144 },
-            { name : 'icon-76.png',       size : 76  },
-            { name : 'icon-76@2x.png',    size : 152 },
-            { name : 'icon-small.png',    size : 29  },
-            { name : 'icon-small@2x.png', size : 58  },
-            { name : 'icon.png',          size : 57  },
-            { name : 'icon@2x.png',       size : 114 },
+        splashPaths : 'platforms/ios/' + projectName + '/Resources/splash/',
+        splashes : [
+            { name : 'Default~iphone-test.png',            size : { w: 320,  h: 480  }  },
+            { name : 'Default@2x~iphone-test.png',         size : { w: 640,  h: 960  }  },
+            { name : 'Default-Portrait~ipad-test.png',     size : { w: 768,  h: 1024 }  },
+            { name : 'Default-Portrait@2x~ipad-test.png',  size : { w: 1536, h: 2048 }  },
+            { name : 'Default-Landscape~ipad-test.png',    size : { w: 1024, h: 768  }  },
+            { name : 'Default-Landscape@2x~ipad-test.png', size : { w: 2048, h: 1536 }  },
+            { name : 'Default-568h@2x~iphone-test.png',    size : { w: 640,  h: 1136 }  }
         ]
     });
     platforms.push({
         name : 'android',
-        iconsPath : 'platforms/android/res/',
+        splashPaths : 'platforms/android/res/',
         isAdded : fs.existsSync('platforms/android'),
-        icons : [
-            { name : 'drawable/icon.png',       size : 96 },
-            { name : 'drawable-hdpi/icon.png',  size : 72 },
-            { name : 'drawable-ldpi/icon.png',  size : 36 },
-            { name : 'drawable-mdpi/icon.png',  size : 48 },
-            { name : 'drawable-xhdpi/icon.png', size : 96 },
+        splashes : [
+            { name : 'drawable-land-hdpi/screen-test.png',   size : { w: 800, h: 480  } },
+            { name : 'drawable-land-ldpi/screen-test.png',   size : { w: 320, h: 200  } },
+            { name : 'drawable-land-mdpi/screen-test.png',   size : { w: 480, h: 320  } },
+            { name : 'drawable-land-xhdpi/screen-test.png',  size : { w: 1280, h: 720 } },
+            { name : 'drawable-port-hdpi/screen-test.png',   size : { w: 480, h: 800  } },
+            { name : 'drawable-port-ldpi/screen-test.png',   size : { w: 200, h: 320  } },
+            { name : 'drawable-port-mdpi/screen-test.png',   size : { w: 320, h: 480  } },
+            { name : 'drawable-port-xhdpi/screen-test.png',  size : { w: 720, h: 1280 } }
         ]
     });
     // TODO: add all platforms
@@ -56,12 +51,12 @@ var getPlatforms = function (projectName) {
 
 
 /**
- * @var {Object} settings - names of the confix file and of the icon image
+ * @var {Object} settings - names of the confix file and of the splashscreen image
  * TODO: add option to get these values as CLI params
  */
 var settings = {};
 settings.CONFIG_FILE = 'config.xml';
-settings.ICON_FILE   = 'icon.png';
+settings.SPLASH_FILE   = 'splash.png';
 
 /**
  * @var {Object} console utils
@@ -105,45 +100,54 @@ var getProjectName = function () {
 };
 
 /**
- * Resizes and creates a new icon in the platform's folder.
+ * Resizes and creates a new splashscreen in the platform's folder.
  *
  * @param  {Object} platform
- * @param  {Object} icon
+ * @param  {Object} splash
  * @return {Promise}
  */
-var generateIcon = function (platform, icon) {
+var generateSplash= function (platform, splash) {
     var deferred = Q.defer();
-    ig.resize({
-        srcPath: settings.ICON_FILE,
-        dstPath: platform.iconsPath + icon.name,
-        quality: 1,
-        format: 'png',
-        width: icon.size,
-        height: icon.size,
-    } , function(err, stdout, stderr){
-        if (err) {
-            deferred.reject(err);
-        } else {
-            deferred.resolve();
-            display.success(icon.name + ' created');
-        }
+    var constraint;
+    var max;
+    if (splash.size.h > splash.size.w) {
+      constraint = 'height';
+      max = splash.size.h;
+    } else {
+      constraint = 'width';
+      max = splash.size.w;
+    }
+    var options = {
+      srcPath: settings.SPLASH_FILE,
+      dstPath: platform.splashPaths + splash.name,
+      quality: 1,
+      format: 'png'
+    };
+    options[constraint] = max;
+    ig.resize(options , function(err, stdout, stderr){
+      if (err) {
+          deferred.reject(err);
+      } else {
+          deferred.resolve();
+          display.success(splash.name + ' created');
+      }
     });
     return deferred.promise;
 };
 
 /**
- * Generates icons based on the platform object
+ * Generates splashscreens based on the platform object
  *
  * @param  {Object} platform
  * @return {Promise}
  */
-var generateIconsForPlatform = function (platform) {
+var generateSplashForPlatform = function (platform) {
     var deferred = Q.defer();
-    display.header('Generating Icons for ' + platform.name);
+    display.header('Generating splashscreens for ' + platform.name);
     var all = [];
-    var icons = platform.icons;
-    icons.forEach(function (icon) {
-        all.push(generateIcon(platform, icon));
+    var splashes = platform.splashes;
+    splashes.forEach(function (splash) {
+        all.push(generateSplash(platform, splash));
     });
     Q.all(all).then(function () {
         deferred.resolve();
@@ -154,18 +158,18 @@ var generateIconsForPlatform = function (platform) {
 };
 
 /**
- * Goes over all the platforms and triggers icon generation
- * 
+ * Goes over all the platforms and triggers splashscreen generation
+ *
  * @param  {Array} platforms
  * @return {Promise}
  */
-var generateIcons = function (platforms) {
+var generateSplashes = function (platforms) {
     var deferred = Q.defer();
     var sequence = Q();
     var all = [];
     _(platforms).where({ isAdded : true }).forEach(function (platform) {
         sequence = sequence.then(function () {
-            return generateIconsForPlatform(platform);
+            return generateSplashForPlatform(platform);
         });
         all.push(sequence);
     });
@@ -196,18 +200,18 @@ var atLeastOnePlatformFound = function () {
 };
 
 /**
- * Checks if a valid icon file exists
+ * Checks if a valid splashscreen file exists
  *
  * @return {Promise} resolves if exists, rejects otherwise
  */
-var validIconExists = function () {
+var validSplashExists = function () {
     var deferred = Q.defer();
-    fs.exists(settings.ICON_FILE, function (exists) {
+    fs.exists(settings.SPLASH_FILE, function (exists) {
         if (exists) {
-            display.success(settings.ICON_FILE + ' exists');
+            display.success(settings.SPLASH_FILE + ' exists');
             deferred.resolve();
         } else {
-            display.error(settings.ICON_FILE + ' does not exist in the root folder');
+            display.error(settings.SPLASH_FILE + ' does not exist in the root folder');
             deferred.reject();
         }
     });
@@ -233,14 +237,14 @@ var configFileExists = function () {
     return deferred.promise;
 };
 
-display.header('Checking Project & Icon');
+display.header('Checking Project & Splashscreens');
 
 atLeastOnePlatformFound()
-    .then(validIconExists)
+    .then(validSplashExists)
     .then(configFileExists)
     .then(getProjectName)
     .then(getPlatforms)
-    .then(generateIcons)
+    .then(generateSplashes)
     .catch(function (err) {
         if (err) {
             console.log(err);
