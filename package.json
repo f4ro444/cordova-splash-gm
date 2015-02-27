@@ -1,6 +1,6 @@
 {
   "name": "cordova-splash-gm",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Automatic splashscreen resizing for Cordova",
   "main": "index.js",
   "preferGlobal": "true",
