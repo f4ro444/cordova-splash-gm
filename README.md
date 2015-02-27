@@ -1,13 +1,12 @@
 # cordova-splash-gm
 
-Automatic splashscreen resizing for Cordova. Add `splash.png` to the root folder of your Cordova project and use cordova-splash-gm to automatically resize, crop, copy and configure the splashscreen for all current Android and iOS devices.
+Automatic splash screen resizing for Cordova. Add `splash.png` to the root folder of your Cordova project and use cordova-splash-gm to automatically resize, crop, copy and configure the splash screen for all current Android and iOS devices.
 
 ### Installation
 `npm install -g cordova-splash-gm`
 
 ### Usage
-Create a `splash.png` file in the root folder of your cordova project and run:
-`cordova-splash-gm`
+Add `splash.png` to the root folder of your cordova project and run `cordova-splash-gm`
 
 ### Creating a cordova-cli hook
 Since the execution of cordova-splash-gm is pretty fast, you can add it as a cordova-cli hook to execute before every build.
