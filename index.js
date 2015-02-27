@@ -1,9 +1,12 @@
 var fs     = require('fs');
+var crypto = require('crypto');
 var xml2js = require('xml2js');
 var gm     = require('gm');
 var colors = require('colors');
 var _      = require('underscore');
 var Q      = require('q');
+
+var hashes = [];
 
 /**
  * Check which platforms are added to the project and return their splashscreen names and sized
@@ -103,6 +106,28 @@ var getProjectName = function () {
 };
 
 /**
+ * Calculates MD5 hash of source file.
+ *
+ * @return {Promise}
+ */
+var calculateHash = function(filepath) {
+  var deferred = Q.defer();
+  var file     = fs.createReadStream(filepath);
+  var hash     = crypto.createHash('sha1');
+
+  hash.setEncoding('hex');
+
+  // read all file and pipe it (write it) to the hash object
+  file.pipe(hash);
+  file.on('end', function() {
+    hash.end();
+    deferred.resolve(hash.read());
+  });
+
+  return deferred.promise;
+};
+
+/**
  * Resizes and creates a new splashscreen in the platform's folder.
  *
  * @param  {Object} platform
@@ -114,7 +139,10 @@ var generateSplash= function (platform, splash) {
     var constraint;
     var height = splash.size.h;
     var width = splash.size.w;
+    var file = platform.splashPaths + splash.name;
     var max;
+
+    // calculate orientation constraint
     if (height > width) {
       constraint = 'height';
       max = height;
@@ -122,18 +150,23 @@ var generateSplash= function (platform, splash) {
       constraint = 'width';
       max = width;
     }
-    gm(settings.SPLASH_FILE)
-      .resize(max, max)
-      .gravity('center')
-      .crop(width, height, (max-width)/2, (max-height)/2)
-      .write(platform.splashPaths + splash.name, function(err) {
-        if (err) {
-          deferred.reject(err);
-        } else {
-          deferred.resolve();
-          display.success(splash.name + ' created');
-        }
-      });
+
+    calculateHash(file).then(function(hash) {
+      hashes.push(hash);
+      // output resized file
+      gm(settings.SPLASH_FILE)
+        .resize(max, max)
+        .gravity('center')
+        .crop(width, height, (max-width)/2, (max-height)/2)
+        .write(file, function(err) {
+          if (err) {
+            deferred.reject(err);
+          } else {
+            deferred.resolve();
+            display.success(splash.name + ' created');
+          }
+        });
+    });
 
     return deferred.promise;
 };
@@ -253,5 +286,5 @@ atLeastOnePlatformFound()
             console.log(err);
         }
     }).then(function () {
-        console.log('');
+        console.log(hashes);
     });
