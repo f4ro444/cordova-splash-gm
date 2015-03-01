@@ -1,7 +1,7 @@
 {
   "name": "cordova-splash-gm",
-  "version": "1.2.4",
-  "description": "Automatic splashscreen resizing for Cordova",
+  "version": "1.3.0",
+  "description": "Automatic splash screen resizing for Cordova",
   "main": "index.js",
   "preferGlobal": "true",
   "directories": {
@@ -17,7 +17,10 @@
   "keywords": [
     "cordova",
     "splash",
-    "resize"
+    "splashscreen",
+    "resize",
+    "phonegap",
+    "hook"
   ],
   "author": "Carlos Antonio",
   "license": "MIT",
