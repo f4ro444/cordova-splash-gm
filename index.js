@@ -88,21 +88,21 @@ display.header = function (str) {
  * @return {Promise} resolves to a string - the project's name
  */
 var getProjectName = function () {
-    var deferred = Q.defer();
-    var parser = new xml2js.Parser();
-    data = fs.readFile(settings.CONFIG_FILE, function (err, data) {
-        if (err) {
-            deferred.reject(err);
-        }
-        parser.parseString(data, function (err, result) {
-            if (err) {
-                deferred.reject(err);
-            }
-            var projectName = result.widget.name[0];
-            deferred.resolve(projectName);
-        });
+  var deferred = Q.defer();
+  var parser = new xml2js.Parser();
+  data = fs.readFile(settings.CONFIG_FILE, function (err, data) {
+    if (err) {
+      deferred.reject(err);
+    }
+    parser.parseString(data, function (err, result) {
+      if (err) {
+        deferred.reject(err);
+      }
+      var projectName = result.widget.name[0];
+      deferred.resolve(projectName);
     });
-    return deferred.promise;
+  });
+  return deferred.promise;
 };
 
 /**
@@ -135,51 +135,51 @@ var calculateHash = function(filepath) {
  * @return {Promise}
  */
 var generateSplash= function (platform, splash) {
-    var deferred = Q.defer();
-    var constraint;
-    var height = splash.size.h;
-    var width = splash.size.w;
-    var file = platform.splashPaths + splash.name;
-    var max;
+  var deferred = Q.defer();
+  var constraint;
+  var height = splash.size.h;
+  var width = splash.size.w;
+  var file = platform.splashPaths + splash.name;
+  var max;
 
-    // calculate orientation constraint
-    if (height > width) {
-      constraint = 'height';
-      max = height;
-    } else {
-      constraint = 'width';
-      max = width;
-    }
+  // calculate orientation constraint
+  if (height > width) {
+    constraint = 'height';
+    max = height;
+  } else {
+    constraint = 'width';
+    max = width;
+  }
 
-    calculateHash(file).then(function(hash) {
-      hashes.push(hash);
-      // output resized file
-      gm(settings.SPLASH_FILE)
-        .resize(max, max)
-        .gravity('center')
-        .crop(width, height, (max-width)/2, (max-height)/2)
-        .write(file, function(err) {
-          if (err) {
-            deferred.reject(err);
-          } else {
-            deferred.resolve();
-            display.success(splash.name + ' created');
-          }
-        });
+  calculateHash(file).then(function(hash) {
+    hashes.push(hash);
+    // output resized file
+    gm(settings.SPLASH_FILE)
+    .resize(max, max)
+    .gravity('center')
+    .crop(width, height, (max-width)/2, (max-height)/2)
+    .write(file, function(err) {
+      if (err) {
+        deferred.reject(err);
+      } else {
+        deferred.resolve();
+        display.success(splash.name + ' created');
+      }
     });
+  });
 
-    return deferred.promise;
+  return deferred.promise;
 };
 
 /**
- * Generates splashscreens based on the platform object
+ * Generates splash screens based on the platform object
  *
  * @param  {Object} platform
  * @return {Promise}
  */
 var generateSplashForPlatform = function (platform) {
     var deferred = Q.defer();
-    display.header('Generating splashscreens for ' + platform.name);
+    display.header('Generating splash screens for ' + platform.name);
     var all = [];
     var splashes = platform.splashes;
     splashes.forEach(function (splash) {
