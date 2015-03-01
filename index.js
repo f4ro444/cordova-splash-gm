@@ -275,16 +275,22 @@ var configFileExists = function () {
 
 display.header('Checking Project & Splashscreens');
 
-atLeastOnePlatformFound()
-    .then(validSplashExists)
-    .then(configFileExists)
-    .then(getProjectName)
-    .then(getPlatforms)
-    .then(generateSplashes)
-    .catch(function (err) {
-        if (err) {
-            console.log(err);
-        }
-    }).then(function () {
-        console.log(hashes);
-    });
+var run = function() {
+  return atLeastOnePlatformFound()
+      .then(validSplashExists)
+      .then(configFileExists)
+      .then(getProjectName)
+      .then(getPlatforms)
+      .then(generateSplashes)
+      .catch(function (err) {
+          if (err) {
+              console.log(err);
+          }
+      }).then(function () {
+          // console.log(hashes);
+      });
+};
+
+module.exports = {
+  generate: run
+};
