@@ -13,17 +13,9 @@ Automatic splash screen resizing for Cordova. Add `splash.png` to the root folde
 2. Create `my-splash-hook.js`
     ```javascript
     var splash = require('cordova-splash-gm');
-
-    module.exports = function(context) {
-      var Q   = context.requireCordovaModule('q');
-      var dfd = new Q.defer();
-
-      splash.generate().then(function() {
-        dfd.resolve();
-        console.log('Splash screens finished generating');
-      });
-
-      return dfd.promise;
+    
+    module.exports = function() {
+      return splash.generate();
     };
     ```
 
