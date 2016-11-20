@@ -47,7 +47,11 @@ var getPlatforms = function (projectName) {
             { name : 'drawable-port-hdpi/screen.png',   size : { w: 480, h: 800  } },
             { name : 'drawable-port-ldpi/screen.png',   size : { w: 200, h: 320  } },
             { name : 'drawable-port-mdpi/screen.png',   size : { w: 320, h: 480  } },
-            { name : 'drawable-port-xhdpi/screen.png',  size : { w: 720, h: 1280 } }
+            { name : 'drawable-port-xhdpi/screen.png',  size : { w: 720, h: 1280 } },
+            { name : 'drawable-land-xxhdpi/screen.png',   size : { w: 1600, h: 960  } },
+            { name : 'drawable-land-xxxhdpi/screen.png',   size : { w: 1920, h: 1280  } },
+            { name : 'drawable-port-xxhdpi/screen.png',   size : { w: 960, h: 1600  } },
+            { name : 'drawable-port-xxxhdpi/screen.png',   size : { w: 1280, h: 1920  } }            
         ]
     });
     // TODO: add all platforms
