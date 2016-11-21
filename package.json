@@ -1,38 +1,91 @@
 {
-  "name": "cordova-splash-gm",
-  "version": "1.3.2",
-  "description": "Automatic splash screen resizing for Cordova",
-  "main": "index.js",
-  "preferGlobal": "true",
-  "directories": {
-    "bin": "./bin"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:disusered/cordova-splash-gm.git"
-  },
-  "keywords": [
-    "cordova",
-    "splash",
-    "splashscreen",
-    "resize",
-    "phonegap",
-    "hook"
+  "_args": [
+    [
+      "cordova-splash-gm",
+      ""
+    ]
   ],
-  "author": "Carlos Antonio",
-  "license": "MIT",
+  "_from": "cordova-splash-gm@*",
+  "_id": "cordova-splash-gm@1.3.2",
+  "_inCache": true,
+  "_location": "/cordova-splash-gm",
+  "_nodeVersion": "0.12.0",
+  "_npmUser": {
+    "email": "crosquillas@gmail.com",
+    "name": "disusered"
+  },
+  "_npmVersion": "2.5.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "cordova-splash-gm",
+    "raw": "cordova-splash-gm",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "*",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-splash-gm/-/cordova-splash-gm-1.3.2.tgz",
+  "_shasum": "f4cc176c2c6c6df25cf3ce9cb0fb7f8eff57ee4f",
+  "_shrinkwrap": null,
+  "_spec": "cordova-splash-gm",
+  "_where": "",
+  "author": {
+    "name": "Carlos Antonio"
+  },
+  "bin": {
+    "cordova-splash": "bin/cordova-splash"
+  },
   "bugs": {
     "url": "https://github.com/disusered/cordova-splash-gm/issues"
   },
-  "homepage": "https://github.com/disusered/cordova-splash-gm",
   "dependencies": {
     "colors": "^0.6.2",
     "gm": "^1.17.0",
     "q": "^1.0.1",
     "underscore": "^1.6.0",
-    "xml2js": "^0.4.3"
-  }
+    "xml2js": "^0.4.3",
+    "yargs": "^6.4.0"
+  },
+  "description": "Automatic splash screen resizing for Cordova",
+  "devDependencies": {},
+  "directories": {
+    "bin": "./bin"
+  },
+  "dist": {
+    "shasum": "f4cc176c2c6c6df25cf3ce9cb0fb7f8eff57ee4f",
+    "tarball": "https://registry.npmjs.org/cordova-splash-gm/-/cordova-splash-gm-1.3.2.tgz"
+  },
+  "gitHead": "989a2c605bc59afdf2aecfdc5366571123ee88af",
+  "homepage": "https://github.com/disusered/cordova-splash-gm",
+  "installable": true,
+  "keywords": [
+    "cordova",
+    "hook",
+    "phonegap",
+    "resize",
+    "splash",
+    "splashscreen"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "disusered",
+      "email": "crosquillas@gmail.com"
+    }
+  ],
+  "name": "cordova-splash-gm",
+  "optionalDependencies": {},
+  "preferGlobal": "true",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:disusered/cordova-splash-gm.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.3.2"
 }

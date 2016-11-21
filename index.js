@@ -5,6 +5,7 @@ var gm     = require('gm');
 var colors = require('colors');
 var _      = require('underscore');
 var Q      = require('q');
+var ionic  = false;
 
 var hashes = [];
 
@@ -38,20 +39,21 @@ var getPlatforms = function (projectName) {
     platforms.push({
         name : 'android',
         splashPaths : 'platforms/android/res/',
+        ionicPaths : 'resources/android/splash/',
         isAdded : fs.existsSync('platforms/android'),
         splashes : [
-            { name : 'drawable-land-hdpi/screen.png',   size : { w: 800, h: 480  } },
-            { name : 'drawable-land-ldpi/screen.png',   size : { w: 320, h: 200  } },
-            { name : 'drawable-land-mdpi/screen.png',   size : { w: 480, h: 320  } },
-            { name : 'drawable-land-xhdpi/screen.png',  size : { w: 1280, h: 720 } },
-            { name : 'drawable-port-hdpi/screen.png',   size : { w: 480, h: 800  } },
-            { name : 'drawable-port-ldpi/screen.png',   size : { w: 200, h: 320  } },
-            { name : 'drawable-port-mdpi/screen.png',   size : { w: 320, h: 480  } },
-            { name : 'drawable-port-xhdpi/screen.png',  size : { w: 720, h: 1280 } },
-            { name : 'drawable-land-xxhdpi/screen.png',   size : { w: 1600, h: 960  } },
-            { name : 'drawable-land-xxxhdpi/screen.png',   size : { w: 1920, h: 1280  } },
-            { name : 'drawable-port-xxhdpi/screen.png',   size : { w: 960, h: 1600  } },
-            { name : 'drawable-port-xxxhdpi/screen.png',   size : { w: 1280, h: 1920  } }            
+            { name : 'drawable-land-hdpi/screen.png'   ,size : { w: 800, h: 480  } ,iname : 'drawable-land-hdpi-screen.png'   },
+            { name : 'drawable-land-ldpi/screen.png'   ,size : { w: 320, h: 200  } ,iname : 'drawable-land-ldpi-screen.png'   },
+            { name : 'drawable-land-mdpi/screen.png'   ,size : { w: 480, h: 320  } ,iname : 'drawable-land-mdpi-screen.png'   },
+            { name : 'drawable-land-xhdpi/screen.png'  ,size : { w: 1280, h: 720 } ,iname : 'drawable-land-xhdpi-screen.png'  },
+            { name : 'drawable-port-hdpi/screen.png'   ,size : { w: 480, h: 800  } ,iname : 'drawable-port-hdpi-screen.png'   },
+            { name : 'drawable-port-ldpi/screen.png'   ,size : { w: 200, h: 320  } ,iname : 'drawable-port-ldpi-screen.png'   },
+            { name : 'drawable-port-mdpi/screen.png'   ,size : { w: 320, h: 480  } ,iname : 'drawable-port-mdpi-screen.png'   },
+            { name : 'drawable-port-xhdpi/screen.png'  ,size : { w: 720, h: 1280 } ,iname : 'drawable-port-xhdpi-screen.png'  },
+            { name : 'drawable-land-xxhdpi/screen.png' ,size : { w: 1600, h: 960 } ,iname : 'drawable-land-xxhdpi-screen.png' },
+            { name : 'drawable-land-xxxhdpi/screen.png',size : { w: 1920, h: 1280} ,iname : 'drawable-land-xxxhdpi-screen.png'},
+            { name : 'drawable-port-xxhdpi/screen.png' ,size : { w: 960 , h: 1600} ,iname : 'drawable-port-xxhdpi-screen.png' },
+            { name : 'drawable-port-xxxhdpi/screen.png',size : { w: 1280, h: 1920} ,iname : 'drawable-port-xxxhdpi-screen.png'}			
         ]
     });
     // TODO: add all platforms
@@ -143,7 +145,15 @@ var generateSplash= function (platform, splash) {
   var constraint;
   var height = splash.size.h;
   var width = splash.size.w;
-  var file = platform.splashPaths + splash.name;
+  //var file = platform.splashPaths + splash.name;
+  var file ="";
+  if (ionic){
+    file = platform.ionicPaths + splash.iname;
+    }else{
+    file = platform.iconsPaths + splash.name;
+    }
+  
+  
   var max;
 
   // calculate orientation constraint
@@ -167,7 +177,12 @@ var generateSplash= function (platform, splash) {
         deferred.reject(err);
       } else {
         deferred.resolve();
-        display.success(splash.name + ' created');
+        if (ionic){
+            display.success(splash.iname + '... created');
+        }else{
+            display.success(splash.name + ' created');
+        }
+        //display.success(splash.name + ' created');
       }
     });
   });
@@ -279,7 +294,14 @@ var configFileExists = function () {
 
 display.header('Checking Project & Splashscreens');
 
-var run = function() {
+var run = function(ionicParam) {
+  if (ionicParam!==undefined){
+	ionic=true;
+	console.log('Ionic Flag is On ....');
+	}else{
+	console.log('Ionic Flag is Off .... ');
+	}
+  
   return atLeastOnePlatformFound()
       .then(validSplashExists)
       .then(configFileExists)

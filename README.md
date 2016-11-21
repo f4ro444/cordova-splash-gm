@@ -2,6 +2,12 @@
 
 Automatic splash screen resizing for Cordova. Add `splash.png` to the root folder of your Cordova project and use cordova-splash-gm to automatically resize, crop, copy and configure the splash screen for all current Android and iOS devices.
 
+###Add Ionic option
+
+This option will store the splash screens into resource folder instead of storing into platform folder directly.
+
+cordova-splash --ionic
+
 ### Manual usage
 1. `npm install -g cordova-splash-gm`
 2. Place `splash.png` to the root folder of your Cordova project
